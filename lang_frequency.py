@@ -16,4 +16,5 @@ def get_most_frequent_words(text):
 
 
 if __name__ == '__main__':
-    pass
+    text = load_data('test.txt')
+    print(get_most_frequent_words(text))
