@@ -28,7 +28,19 @@ def get_words_from_text(text):
 
 
 def get_most_frequent_words(tokenized_word_list):
-    pass
+    words_frequency_dictionary = {}
+    for word in tokenized_word_list:
+        if word not in words_frequency_dictionary:
+            words_frequency_dictionary[word] = 1
+        else:
+            words_frequency_dictionary[word] += 1
+    logging.debug("get_most_frequent_words")
+    sorted_word_frequency = sorted(
+        words_frequency_dictionary.items(),
+        key=lambda x: x[1], reverse=True)
+    logging.debug(sorted_word_frequency)
+    logging.debug(type(sorted_word_frequency))
+    print(sorted_word_frequency[1:10])
 
 
 def get_console_args():
@@ -53,3 +65,4 @@ if __name__ == '__main__':
     if text is None:
         sys.exit('File not found or path is incorrect')
     tokenized_word_list = get_words_from_text(text)
+    get_most_frequent_words(tokenized_word_list)
