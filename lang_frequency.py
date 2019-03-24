@@ -3,6 +3,7 @@ import re
 import logging
 import logging.config
 import argparse
+import sys
 
 
 logging.config.fileConfig("logging.conf")
@@ -19,7 +20,11 @@ def load_data(file_path):
 
 
 def get_words_from_text(text):
-    pass
+    lower_case_text = text.lower()
+    numberless_text = re.sub(r"\d", " ", lower_case_text)
+    tokenized_word_list = re.findall(r'\w+', numberless_text)
+    logging.debug(tokenized_word_list)
+    return tokenized_word_list
 
 
 def get_most_frequent_words(tokenized_word_list):
@@ -45,3 +50,6 @@ def get_console_args():
 if __name__ == '__main__':
     parse_args = get_console_args()
     text = load_data(parse_args.file_path)
+    if text is None:
+        sys.exit('File not found or path is incorrect')
+    tokenized_word_list = get_words_from_text(text)
