@@ -35,12 +35,13 @@ def get_most_frequent_words(tokenized_word_list):
         else:
             words_frequency_dictionary[word] += 1
     logging.debug("get_most_frequent_words")
-    sorted_word_frequency = sorted(
+    sorted_word_frequency_dictionary = sorted(
         words_frequency_dictionary.items(),
         key=lambda x: x[1], reverse=True)
-    logging.debug(sorted_word_frequency)
-    logging.debug(type(sorted_word_frequency))
-    print(sorted_word_frequency[1:10])
+    logging.debug(sorted_word_frequency_dictionary)
+    logging.debug(type(sorted_word_frequency_dictionary))
+    logging.debug(dict(sorted_word_frequency_dictionary[:10]))
+    return dict(sorted_word_frequency_dictionary[:10])
 
 
 def get_console_args():
@@ -59,10 +60,36 @@ def get_console_args():
     return parser.parse_args()
 
 
+def print_formated_result(sorted_word_frequency_dictionary: dict):
+    print('{}\n{:<3}{:<2}{:^7}{:<2}{:^10}{:<3}\n{}'.format(
+        '-'*27,
+        '| №  ',
+        '|',
+        'Word:',
+        '|',
+        'Entris:',
+        '|',
+        '-'*27
+    ))
+    for word_number, word_entry in enumerate(sorted_word_frequency_dictionary):
+        print('{table0}{word_number:<3}'
+              '{table1:<2}{word:^7}{table2:<2}{entry:^10}{table3:<3}'.format(
+                  table0='| ',
+                  word_number=word_number+1,
+                  table1='|',
+                  word=word_entry,
+                  table2='|',
+                  entry=sorted_word_frequency_dictionary[word_entry],
+                  table3='|'))
+    print('-'*27)
+
+
 if __name__ == '__main__':
     parse_args = get_console_args()
     text = load_data(parse_args.file_path)
     if text is None:
         sys.exit('File not found or path is incorrect')
     tokenized_word_list = get_words_from_text(text)
-    get_most_frequent_words(tokenized_word_list)
+    sorted_word_frequency_dictionary = get_most_frequent_words(
+        tokenized_word_list)
+    print_formated_result(sorted_word_frequency_dictionary)
