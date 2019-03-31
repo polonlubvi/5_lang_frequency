@@ -2,7 +2,7 @@
 
 This project accept text file and return information about frequency of the words, that have been found.
 
-# Quiqstart
+# Quickstart
 
 You have to specify path to the file with text to analyze
 
